@@ -1,6 +1,6 @@
 import React from "react";
 
-function GuessInput({ guess, setGuess, guessList, setGuessList }) {
+function GuessInput({ guess, setGuess, guessResult, setGuessResult }) {
   return (
     <form
       className="guess-input-wrapper"
@@ -11,12 +11,11 @@ function GuessInput({ guess, setGuess, guessList, setGuessList }) {
         const isValidGuess = reValidGuess.test(guess);
 
         if (isValidGuess) {
-          const currGuess = { id: crypto.randomUUID(), guess };
-          const nextGuessList = [...guessList];
-          nextGuessList.push(currGuess);
-          console.log(currGuess);
+          const newGuess = { id: crypto.randomUUID(), value: guess };
+          const nextGuessResult = [...guessResult];
+          nextGuessResult.push(newGuess);
 
-          setGuessList(nextGuessList);
+          setGuessResult(nextGuessResult);
           setGuess("");
         }
       }}
