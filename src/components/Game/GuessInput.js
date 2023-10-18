@@ -1,4 +1,5 @@
 import React from "react";
+import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
 
 function GuessInput({ guess, setGuess, guessResult, setGuessResult }) {
   return (
@@ -16,6 +17,7 @@ function GuessInput({ guess, setGuess, guessResult, setGuessResult }) {
           nextGuessResult.push(newGuess);
 
           setGuessResult(nextGuessResult);
+          console.log(nextGuessResult);
           setGuess("");
         }
       }}
@@ -25,6 +27,7 @@ function GuessInput({ guess, setGuess, guessResult, setGuessResult }) {
         id="guess-input"
         type="text"
         value={guess}
+        disabled={guessResult.length >= NUM_OF_GUESSES_ALLOWED}
         maxLength={5}
         onChange={(event) => {
           setGuess(event.target.value.toUpperCase());

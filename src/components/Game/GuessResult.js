@@ -1,17 +1,23 @@
 import React from "react";
+import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
+import Guess from "./Guess";
+import { range } from "../../utils";
 
 function GuessResult({ guessResult }) {
   return (
     <div className="guess-results">
-      {guessResult.map((guess) => (
-        <p className="guess" key={guess.id}>
-          {guess.value.split("").map((char, index) => (
-            <span className="cell" key={index}>
-              {char}
-            </span>
-          ))}
-        </p>
-      ))}
+      {range(0, NUM_OF_GUESSES_ALLOWED).map((index) => {
+        const guess = guessResult[index] ?? {
+          id: crypto.randomUUID(),
+          value: "",
+        };
+
+        return (
+          <p className="guess" key={guess.id}>
+            <Guess letters={guess.value} />
+          </p>
+        );
+      })}
     </div>
   );
 }

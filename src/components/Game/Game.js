@@ -15,13 +15,13 @@ function Game() {
 
   return (
     <>
+      <GuessResult guessResult={guessResult} />
       <GuessInput
         guess={guess}
         setGuess={setGuess}
         guessResult={guessResult}
         setGuessResult={setGuessResult}
       />
-      <GuessResult guessResult={guessResult} />
     </>
   );
 }
