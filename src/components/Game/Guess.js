@@ -1,18 +1,16 @@
 import React from "react";
 import { range } from "../../utils";
-import { checkGuess } from "../../game-helpers";
 
-function Guess({ guess, answer }) {
-  const coreections = checkGuess(guess, answer) ?? "";
-
+function Guess({ guessValue }) {
   return (
     <>
       {range(0, 5).map((index) => {
-        const correction = coreections[index] ?? { letter: "", status: "" };
-
         return (
-          <span className={`cell ${correction.status}`} key={index}>
-            {correction.letter ?? ""}
+          <span
+            className={`cell ${guessValue ? guessValue[index].status : ""}`}
+            key={index}
+          >
+            {guessValue ? guessValue[index].letter : ""}
           </span>
         );
       })}

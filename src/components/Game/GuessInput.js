@@ -1,7 +1,16 @@
 import React from "react";
+import { checkGuess } from "../../game-helpers";
 import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
 
-function GuessInput({ guess, setGuess, guessResult, setGuessResult }) {
+function GuessInput({
+  guessResult,
+  setGuessResult,
+  gameResult,
+  setGameResult,
+  answer,
+}) {
+  const [guess, setGuess] = React.useState("");
+
   return (
     <form
       className="guess-input-wrapper"
@@ -12,12 +21,18 @@ function GuessInput({ guess, setGuess, guessResult, setGuessResult }) {
         const isValidGuess = reValidGuess.test(guess);
 
         if (isValidGuess) {
-          const newGuess = { id: crypto.randomUUID(), value: guess };
+          const checkResult = checkGuess(guess, answer);
+          const newResultItem = { id: crypto.randomUUID(), value: checkResult };
           const nextGuessResult = [...guessResult];
-          nextGuessResult.push(newGuess);
-
+          nextGuessResult.push(newResultItem);
           setGuessResult(nextGuessResult);
-          console.log(nextGuessResult);
+
+          if (checkResult.every((letter) => letter.status === "correct")) {
+            setGameResult("win");
+          } else if (nextGuessResult.length >= NUM_OF_GUESSES_ALLOWED) {
+            setGameResult("lose");
+          }
+
           setGuess("");
         }
       }}
@@ -27,7 +42,7 @@ function GuessInput({ guess, setGuess, guessResult, setGuessResult }) {
         id="guess-input"
         type="text"
         value={guess}
-        disabled={guessResult.length >= NUM_OF_GUESSES_ALLOWED}
+        disabled={gameResult !== "undecided"}
         maxLength={5}
         onChange={(event) => {
           setGuess(event.target.value.toUpperCase());
